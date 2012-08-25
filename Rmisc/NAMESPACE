@@ -1,1 +1,1 @@
-exportPattern("^[[:alpha:]]+")
+export(CI, STDERR, group.CI, group.STDERR)

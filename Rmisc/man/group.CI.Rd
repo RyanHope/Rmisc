@@ -32,7 +32,15 @@ Ryan M. Hope <rmh3093@gmail.com>
 }
 
 \examples{
-group.CI(weight~feed,chickwts)
+require(latticeExtra)
+with(group.CI(weight~feed,chickwts),
+	segplot(feed~weight.lower+weight.upper,center=weight.mean)
+	)
+
+require(Hmisc)
+with(group.CI(Temp~Month,airquality),
+	xYplot(Cbind(Temp.mean,Temp.lower,Temp.upper)~numericScale(Month),type="b",ylim=c(60,90))
+	)
 }
 
 \keyword{ methods }

@@ -22,7 +22,7 @@ the confidence interval to be calculated.
 \value{
   \item{upper}{Upper bound of interval.}
   \item{mean}{Mean of data.}
-  \item{mean}{Lower bound of interval.}
+  \item{lower}{Lower bound of interval.}
 }
 \author{
 Ryan M. Hope <rmh3093@gmail.com>

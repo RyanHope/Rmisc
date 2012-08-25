@@ -4,7 +4,7 @@ build: clean check
 	R CMD build Rmisc
 
 check:
-	R CMD check Rmisc
+	R CMD check --as-cran Rmisc
 
 clean:
 	rm -rf *.Rcheck

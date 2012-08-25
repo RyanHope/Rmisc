@@ -29,7 +29,15 @@ Ryan M. Hope <rmh3093@gmail.com>
 }
 
 \examples{
-group.STDERR(weight~feed,chickwts)
+require(latticeExtra)
+with(group.STDERR(weight~feed,chickwts),
+	segplot(feed~weight.lower+weight.upper,center=weight.mean)
+	)
+
+require(Hmisc)
+with(group.STDERR(Temp~Month,airquality),
+	xYplot(Cbind(Temp.mean,Temp.lower,Temp.upper)~numericScale(Month),type="b",ylim=c(60,90))
+	)
 }
 
 \keyword{ methods }

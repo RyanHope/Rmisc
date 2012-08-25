@@ -20,7 +20,7 @@ a vector of data.
 \value{
   \item{upper}{Upper bound of interval.}
   \item{mean}{Mean of data.}
-  \item{mean}{Lower bound of interval.}
+  \item{lower}{Lower bound of interval.}
 }
 
 \author{
