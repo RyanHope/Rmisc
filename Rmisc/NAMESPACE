@@ -1,1 +1,1 @@
-export(CI, STDERR, group.CI, group.STDERR)
+export(CI, STDERR, group.CI, group.STDERR, rsi)

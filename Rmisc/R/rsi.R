@@ -1,0 +1,1 @@
+rsi <- function(x) c(1,which(diff(x)!=0)+1)

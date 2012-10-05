@@ -12,8 +12,8 @@ The Rmisc library contains many functions useful for data analysis and utility o
 \tabular{ll}{
 Package: \tab Rmisc\cr
 Type: \tab Package\cr
-Version: \tab 1.2\cr
-Date: \tab 2012-07-19\cr
+Version: \tab 1.3\cr
+Date: \tab 2012-10-05\cr
 License: \tab GPL-3\cr
 }
 }
