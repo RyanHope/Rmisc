@@ -1,1 +1,1 @@
-export(CI, STDERR, group.CI, group.STDERR, rsi, panel.circle)
+export(CI, STDERR, group.CI, group.STDERR, rsi, panel.circle, rounder)

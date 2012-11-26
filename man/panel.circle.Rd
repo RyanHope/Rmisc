@@ -16,6 +16,7 @@
   \item{y}{The y coordinate of the circle center}
   \item{r}{The radius of the circle}
   \item{segments}{The number of polygon segments used to create the circle}
+  \item{groups}{A factor defining groups}
   \item{...}{Additional arguments passed to panel.polygon}
 }
 
