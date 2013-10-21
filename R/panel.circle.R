@@ -1,3 +1,19 @@
+#' Circle Drawing
+#' 
+#' A panel function for drawing circles.
+#' 
+#' @param x The x coordinate of the circle center
+#' @param y The y coordinate of the circle center
+#' @param r The radius of the circle
+#' @param segments The number of polygon segments used to create the circle
+#' @param groups A factor defining groups
+#' @param ... Additional arguments passed to panel.polygon
+#' 
+#' @export
+#' 
+#' @examples
+#' panel.circle(0, 0, 10)
+#' 
 panel.circle <- function(x, y, r, segments = 50L, groups = NULL, ...)
 {
   x <- as.numeric(x)

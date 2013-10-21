@@ -1,14 +1,18 @@
 % Built by roxygen3 0.1
-\name{group.STDERR}
-\alias{group.STDERR}
-\title{Group Standard Error Interval}
+\name{group.UCL}
+\alias{group.UCL}
+\title{Group Upper-Center-Lower}
 \usage{
-  group.STDERR(x, data)
+  group.UCL(x, data, FUN, ...)
 }
 \arguments{
   \item{x}{an `aggregate` compatible formula}
 
   \item{data}{a data frame (or list) from which the variables in formula should be taken.}
+
+  \item{FUN}{the function to apply to each group}
+
+  \item{...}{extra params passed on to aggregate}
 }
 
 \value{
@@ -17,16 +21,17 @@ three columns for the upper bound, mean and lower bound of the standard error
 interval for each level of the grouping factor.
 }
 \description{
-Calculates the standard error interval of grouped data.
+Applies a function which calculates a parameter with lower/uper 
+bounds to groups of data.
 }
 \examples{
 require(latticeExtra)
-with(group.STDERR(weight~feed,chickwts),
+with(group.UCL(weight~feed,chickwts,FUN=CI),
  segplot(feed~weight.lower+weight.upper,center=weight.mean)
 )
 
 require(Hmisc)
-with(group.STDERR(Temp~Month,airquality),
+with(group.UCL(Temp~Month,airquality,FUN=STDERR),
  xYplot(Cbind(Temp.mean,Temp.lower,Temp.upper)~numericScale(Month),type="b",ylim=c(60,90))
 )
 }
