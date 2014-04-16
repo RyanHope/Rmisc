@@ -19,26 +19,28 @@
 #' 
 summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
                       conf.interval=.95, .drop=TRUE) {
+  require(plyr)
+  
   # New version of length which can handle NA's: if na.rm==T, don't count them
   length2 <- function (x, na.rm=FALSE) {
     if (na.rm) sum(!is.na(x))
     else       length(x)
   }
   
-  # This is does the summary; it's not easy to understand...
+  # This does the summary. For each group's data frame, return a vector with
+  # N, mean, and sd
   datac <- ddply(data, groupvars, .drop=.drop,
-                 .fun= function(xx, col, na.rm) {
-                   c( N    = length2(xx[,col], na.rm=na.rm),
-                      mean = mean   (xx[,col], na.rm=na.rm),
-                      sd   = sd     (xx[,col], na.rm=na.rm)
+                 .fun = function(xx, col) {
+                   c(N    = length2(xx[[col]], na.rm=na.rm),
+                     mean = mean   (xx[[col]], na.rm=na.rm),
+                     sd   = sd     (xx[[col]], na.rm=na.rm)
                    )
                  },
-                 measurevar,
-                 na.rm
+                 measurevar
   )
   
   # Rename the "mean" column    
-  datac <- rename(datac, c("mean"=measurevar))
+  datac <- rename(datac, c("mean" = measurevar))
   
   datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
   
@@ -74,6 +76,8 @@ summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
 #' 
 normDataWithin <- function(data=NULL, idvar, measurevar, betweenvars=NULL,
                            na.rm=FALSE, .drop=TRUE) {
+  require(plyr)
+  
   # Measure var on left, idvar + between vars on right of formula.
   data.subjMean <- ddply(data, c(idvar, betweenvars), .drop=.drop,
                          .fun = function(xx, col, na.rm) {
@@ -87,7 +91,7 @@ normDataWithin <- function(data=NULL, idvar, measurevar, betweenvars=NULL,
   data <- merge(data, data.subjMean)
   
   # Get the normalized data in a new column
-  measureNormedVar <- paste(measurevar, "Normed", sep="")
+  measureNormedVar <- paste(measurevar, "_norm", sep="")
   data[,measureNormedVar] <- data[,measurevar] - data[,"subjMean"] +
     mean(data[,measurevar], na.rm=na.rm)
   
@@ -124,7 +128,9 @@ summarySEwithin <- function(data=NULL, measurevar, betweenvars=NULL, withinvars=
                             idvar=NULL, na.rm=FALSE, conf.interval=.95, .drop=TRUE) {
   
   # Ensure that the betweenvars and withinvars are factors
-  factorvars <- sapply(data[, c(betweenvars, withinvars), drop=FALSE], FUN=is.factor)
+  factorvars <- vapply(data[, c(betweenvars, withinvars), drop=FALSE],
+                       FUN=is.factor, FUN.VALUE=logical(1))
+  
   if (!all(factorvars)) {
     nonfactorvars <- names(factorvars)[!factorvars]
     message("Automatically converting the following non-factors to factors: ",
@@ -132,28 +138,36 @@ summarySEwithin <- function(data=NULL, measurevar, betweenvars=NULL, withinvars=
     data[nonfactorvars] <- lapply(data[nonfactorvars], factor)
   }
   
-  # Norm each subject's data    
-  data <- normDataWithin(data, idvar, measurevar, betweenvars, na.rm, .drop=.drop)
+  # Get the means from the un-normed data
+  datac <- summarySE(data, measurevar, groupvars=c(betweenvars, withinvars),
+                     na.rm=na.rm, conf.interval=conf.interval, .drop=.drop)
+  
+  # Drop all the unused columns (these will be calculated with normed data)
+  datac$sd <- NULL
+  datac$se <- NULL
+  datac$ci <- NULL
+  
+  # Norm each subject's data
+  ndata <- normDataWithin(data, idvar, measurevar, betweenvars, na.rm, .drop=.drop)
   
   # This is the name of the new column
-  measureNormedVar <- paste(measurevar, "Normed", sep="")
-  
-  # Replace the original data column with the normed one
-  data[,measurevar] <- data[,measureNormedVar]
+  measurevar_n <- paste(measurevar, "_norm", sep="")
   
   # Collapse the normed data - now we can treat between and within vars the same
-  datac <- summarySE(data, measurevar, groupvars=c(betweenvars, withinvars), na.rm=na.rm,
-                     conf.interval=conf.interval, .drop=.drop)
+  ndatac <- summarySE(ndata, measurevar_n, groupvars=c(betweenvars, withinvars),
+                      na.rm=na.rm, conf.interval=conf.interval, .drop=.drop)
   
   # Apply correction from Morey (2008) to the standard error and confidence interval
   #  Get the product of the number of conditions of within-S variables
-  nWithinGroups    <- prod(sapply(datac[,withinvars, drop=FALSE], FUN=nlevels))
+  nWithinGroups    <- prod(vapply(ndatac[,withinvars, drop=FALSE], FUN=nlevels,
+                                  FUN.VALUE=numeric(1)))
   correctionFactor <- sqrt( nWithinGroups / (nWithinGroups-1) )
   
   # Apply the correction factor
-  datac$sd <- datac$sd * correctionFactor
-  datac$se <- datac$se * correctionFactor
-  datac$ci <- datac$ci * correctionFactor
+  ndatac$sd <- ndatac$sd * correctionFactor
+  ndatac$se <- ndatac$se * correctionFactor
+  ndatac$ci <- ndatac$ci * correctionFactor
   
-  return(datac)
+  # Combine the un-normed means with the normed results
+  merge(datac, ndatac)
 }
