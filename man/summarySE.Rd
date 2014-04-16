@@ -18,7 +18,7 @@ summarySE(data = NULL, measurevar, groupvars = NULL, na.rm = FALSE,
   NA's}
 
   \item{conf.interval}{the percent range of the confidence
-  interval (default is 95%)}
+  interval (default is 95\%)}
 
   \item{.drop}{should combinations of variables that do not
   appear in the input data be preserved (FALSE) or dropped
@@ -26,11 +26,11 @@ summarySE(data = NULL, measurevar, groupvars = NULL, na.rm = FALSE,
 }
 \value{
 a data frame with count, mean, standard deviation, standard
-error of the mean, and confidence interval (default 95%).
+error of the mean, and confidence interval (default 95\%).
 }
 \description{
 Gives count, mean, standard deviation, standard error of
-the mean, and confidence interval (default 95%).
+the mean, and confidence interval (default 95\%).
 }
 \references{
 http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)

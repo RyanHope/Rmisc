@@ -25,7 +25,7 @@ summarySEwithin(data = NULL, measurevar, betweenvars = NULL,
   NA's}
 
   \item{conf.interval}{the percent range of the confidence
-  interval (default is 95%)}
+  interval (default is 95\%)}
 
   \item{.drop}{should combinations of variables that do not
   appear in the input data be preserved (FALSE) or dropped
@@ -33,14 +33,14 @@ summarySEwithin(data = NULL, measurevar, betweenvars = NULL,
 }
 \value{
 a data frame with count, mean, standard deviation, standard
-error of the mean, and confidence interval (default 95%).
+error of the mean, and confidence interval (default 95\%).
 }
 \description{
 Summarizes data, handling within-subjects variables by
 removing inter-subject variability. It will still work if
 there are no within-S variables. Gives count, mean,
 standard deviation, standard error of the mean, and
-confidence interval (default 95%). If there are
+confidence interval (default 95\%). If there are
 within-subject variables, calculate adjusted values using
 method from Morey (2008).
 }

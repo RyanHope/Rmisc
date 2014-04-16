@@ -1,15 +1,15 @@
 #' Summarizes data
 #' 
-#' Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
+#' Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95\%).
 #' 
 #' @param data a data frame
 #' @param measurevar the name of a column that contains the variable to be summariezed
 #' @param groupvars a vector containing names of columns that contain grouping variables
 #' @param na.rm a boolean that indicates whether to ignore NA's
-#' @param conf.interval the percent range of the confidence interval (default is 95%)
+#' @param conf.interval the percent range of the confidence interval (default is 95\%)
 #' @param .drop should combinations of variables that do not appear in the input data be preserved (FALSE) or dropped (TRUE, default)
 #' 
-#' @return a data frame with count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
+#' @return a data frame with count, mean, standard deviation, standard error of the mean, and confidence interval (default 95\%).
 #' 
 #' @references http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)
 #' 
@@ -102,7 +102,7 @@ normDataWithin <- function(data=NULL, idvar, measurevar, betweenvars=NULL,
 #' Summarize within-subjects data
 #' 
 #' Summarizes data, handling within-subjects variables by removing inter-subject variability.
-#' It will still work if there are no within-S variables. Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
+#' It will still work if there are no within-S variables. Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95\%).
 #' If there are within-subject variables, calculate adjusted values using method from Morey (2008).
 #' 
 #' @param data a data frame
@@ -111,10 +111,10 @@ normDataWithin <- function(data=NULL, idvar, measurevar, betweenvars=NULL,
 #' @param withinvars a vector containing names of columns that are within-subjects variables
 #' @param idvar the name of a column that identifies each subject (or matched subjects)
 #' @param na.rm a boolean that indicates whether to ignore NA's
-#' @param conf.interval the percent range of the confidence interval (default is 95%)
+#' @param conf.interval the percent range of the confidence interval (default is 95\%)
 #' @param .drop should combinations of variables that do not appear in the input data be preserved (FALSE) or dropped (TRUE, default)
 #' 
-#' @return a data frame with count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
+#' @return a data frame with count, mean, standard deviation, standard error of the mean, and confidence interval (default 95\%).
 #' 
 #' @references http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)
 #' 
