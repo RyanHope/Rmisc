@@ -19,8 +19,7 @@
 #' 
 summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
                       conf.interval=.95, .drop=TRUE) {
-  require(plyr)
-  
+
   # New version of length which can handle NA's: if na.rm==T, don't count them
   length2 <- function (x, na.rm=FALSE) {
     if (na.rm) sum(!is.na(x))
@@ -76,7 +75,6 @@ summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
 #' 
 normDataWithin <- function(data=NULL, idvar, measurevar, betweenvars=NULL,
                            na.rm=FALSE, .drop=TRUE) {
-  require(plyr)
   
   # Measure var on left, idvar + between vars on right of formula.
   data.subjMean <- ddply(data, c(idvar, betweenvars), .drop=.drop,
@@ -119,8 +117,6 @@ normDataWithin <- function(data=NULL, idvar, measurevar, betweenvars=NULL,
 #' @return a data frame with count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
 #' 
 #' @references http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)
-#' 
-#' @autoImports
 #' 
 #' @export
 #' 

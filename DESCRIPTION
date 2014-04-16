@@ -15,15 +15,3 @@ Suggests:
 Depends:
     lattice,
     plyr
-Collate:
-    'CI.R'
-    'STDERR.R'
-    'group.UCL.R'
-    'group.CI.R'
-    'group.STDERR.R'
-    'lr.glover.R'
-    'multiplot.R'
-    'panel.circle.R'
-    'rounder.R'
-    'rsi.R'
-    'summarySE.R'
