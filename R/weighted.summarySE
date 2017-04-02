@@ -1,0 +1,42 @@
+
+
+
+################## adopted version with weighted Means --- weighted SE
+weighted.summarySE <- function(data=NULL, measurevar,  groupvars=NULL, w, na.rm=FALSE,
+                      conf.interval=.95, .drop=TRUE) {
+  
+  # New version of length which can handle NA's: if na.rm==T, don't count them
+  length2 <- function (x, na.rm=FALSE) {
+    if (na.rm) sum(!is.na(x))
+    else       length(x)
+  }
+  
+  #weighted - SD function!
+  w.sd <- function(x, w,na.rm=TRUE )  ( (sum(w*x*x, na.rm=na.rm)/sum(w, na.rm=na.rm)) - weighted.mean(x,w, na.rm=na.rm)^2 )^.5
+  
+  
+  # This does the summary. For each group's data frame, return a vector with
+  datac <- ddply(data, groupvars,
+                 .fun = function(xx, col, w) {
+                   c(N    = length2(xx[[col]], na.rm=na.rm),
+                     mean = weighted.mean(xx[[col]], xx[[w]], na.rm=na.rm),
+                     sd   = w.sd(xx[[col]], xx[[w]], na.rm=na.rm)
+                   )
+                 },
+                 measurevar, w
+  )
+  
+  # Rename the "mean" column    
+  datac <- rename(datac, c("mean" = measurevar))
+  
+  datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
+  
+  # Confidence interval multiplier for standard error
+  # Calculate t-statistic for confidence interval: 
+  # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
+  ciMult <- qt(conf.interval/2 + .5, datac$N-1)
+  datac$ci <- datac$se * ciMult
+  
+  return(datac)
+}
+
